@@ -1,7 +1,14 @@
 package robot.subsystems.Commands;
 
+import com.stormbots.MiniPID;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
+import robot.auxilary.Point;
+import robot.subsystems.DrivetrainConstants;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -9,8 +16,17 @@ import robot.Robot;
 public class LatencyVisionDrive extends Command {
     private double lastRightDistance, lastLeftDistance = 0;
     private int direction;
-    double distance;
-
+    private double distance;
+    private List<Point> positionsList = new ArrayList<>();
+    public MiniPID angleMiniPID = new MiniPID(DrivetrainConstants.ANGLE_KP, DrivetrainConstants.ANGLE_KI, DrivetrainConstants.ANGLE_KD);
+    public MiniPID distanceMiniPID = new MiniPID(DrivetrainConstants.DISTANCE_KP, DrivetrainConstants.DISTANCE_KI, DrivetrainConstants.DISTANCE_KD);
+    private NetworkTableEntry distanceEntry = Robot.visionTable.getEntry("distance");
+    private NetworkTableEntry angleEntry = Robot.visionTable.getEntry("angle");
+    private double targetDistance;
+    private double distanceError;
+    private double angleError;
+    private double distanceOutput;
+    private double angleOutput;
 
 
     public LatencyVisionDrive() {
@@ -52,5 +68,12 @@ public class LatencyVisionDrive extends Command {
         lastRightDistance = Robot.drivetrain.getRightDistance();
         lastLeftDistance = Robot.drivetrain.getLeftDistance();
 
+        positionsList.add(new Point(x,y));
+    }
+
+    public void scalePositionsList(){
+        if(positionsList.size()>10){
+            positionsList.remove(0);
+        }
     }
 }
