@@ -28,6 +28,7 @@ import robot.subsystems.DrivetrainSubsystem;
 public class Robot extends TimedRobot {
     public static OI m_oi;
     public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+    public  static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision");
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();
