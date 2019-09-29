@@ -6,4 +6,7 @@ public class DrivetrainConstants {
     public static final double TIME_STEP = 0.02;
     public static final double MAX_ACCELERATION = 0.4;// in m/s^2 (currently not the correct number)
     public static final int MAX_CURRENT = 35;
+
+    public static final double visionDistanceKp =0.2;
+    public static final double visionAngleKp =0.2;
 }
