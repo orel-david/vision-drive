@@ -1,6 +1,5 @@
 package robot.subsystems.Commands;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
@@ -36,8 +35,8 @@ public class ProportionalVisionDriveCommand extends Command {
         angleError = angleEntry.getDouble(0);
 
         //calculate the proportional outputs
-        distanceOutput = distanceError * DrivetrainConstants.visionDistanceKp;
-        angleOutput = angleError * DrivetrainConstants.visionAngleKp;
+        distanceOutput = distanceError * DrivetrainConstants.VISION_DISTANCE_KP;
+        angleOutput = angleError * DrivetrainConstants.VISION_ANGLE_KP;
 
         //set the output for each motor
         Robot.drivetrain.setRightSpeed(distanceOutput + angleOutput);
