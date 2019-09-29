@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import robot.Robot;
 import robot.auxilary.Point;
 
 public class DrivetrainSubsystem extends Subsystem {
@@ -39,6 +40,10 @@ public class DrivetrainSubsystem extends Subsystem {
 
     public void setRightSpeed(double speed){
         rightMaster.set(ControlMode.PercentOutput,speed);
+    }
+
+    public double getAngle(){
+        return Robot.navx.getAngle();
     }
 
     public double getLeftDistance(){

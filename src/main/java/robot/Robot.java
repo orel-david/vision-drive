@@ -27,6 +27,7 @@ import robot.subsystems.DrivetrainSubsystem;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
+    public static AHRS navx = new AHRS(SPI.Port.kMXP);
     public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
     public  static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision");
 
