@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import robot.auxilary.Point;
 
 public class DrivetrainSubsystem extends Subsystem {
 
@@ -13,6 +14,7 @@ public class DrivetrainSubsystem extends Subsystem {
     public VictorSPX left1 = new VictorSPX(14);
     public VictorSPX right2 = new VictorSPX(13);
     public VictorSPX left2 = new VictorSPX(15);
+    public Point currentLocation = new Point(0,0);
 
     public DrivetrainSubsystem(){
         leftMaster.setInverted(true);
@@ -107,5 +109,9 @@ public class DrivetrainSubsystem extends Subsystem {
     @Override
     protected void initDefaultCommand() {
 
+    }
+
+    public void resetLocation(){
+        currentLocation.setPoint(0,0);
     }
 }
