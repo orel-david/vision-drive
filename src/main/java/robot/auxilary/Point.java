@@ -1,30 +1,30 @@
 package robot.auxilary;
 
 public class Point {
-    private int x,y;
+    private double x,y;
 
-    public Point(int x , int y){
+    public Point(double x , double y){
         this.x = x;
         this.y = y;
     }
 
-    public int getX(){
+    public double getX(){
         return x;
     }
 
-    public int getY(){
+    public double getY(){
         return y;
     }
 
-    public void moveY(int y){
+    public void moveY(double y){
         this.y += y;
     }
 
-    public void moveX(int x){
+    public void moveX(double x){
         this.x = x;
     }
 
-    public void setPoint(int x, int y){
+    public void setPoint(double x, double y){
         this.y = y;
         this.x = x;
     }
