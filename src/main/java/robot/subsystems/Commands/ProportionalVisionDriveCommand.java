@@ -35,9 +35,11 @@ public class ProportionalVisionDriveCommand extends Command {
         distanceError = targetDistance - distanceEntry.getDouble(0);
         angleError = angleEntry.getDouble(0);
 
+        //calculate the proportional outputs
         distanceOutput = distanceError * DrivetrainConstants.visionDistanceKp;
         angleOutput = angleError * DrivetrainConstants.visionAngleKp;
 
+        //set the output for each motor
         Robot.drivetrain.setRightSpeed(distanceOutput + angleOutput);
         Robot.drivetrain.setLeftSpeed(distanceOutput - angleOutput);
 
@@ -46,7 +48,9 @@ public class ProportionalVisionDriveCommand extends Command {
     @Override
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(angleError) < 4 && Math.abs(distanceError) < 0.3;
+        return Math.abs(angleError) < 2// if the angle mistake is smaller than 2 degrees
+                && Math.abs(distanceError) < 0.3;//and the distance mistake is smaller than 0.3 meters
+
     }
 
     @Override
