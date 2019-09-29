@@ -2,6 +2,10 @@ package robot.subsystems.Commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
+import robot.auxilary.Point;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -10,6 +14,7 @@ public class LatencyVisionDrive extends Command {
     private double lastRightDistance, lastLeftDistance = 0;
     private int direction;
     double distance;
+    List<Point> positionsList = new ArrayList<>();
 
 
 
@@ -52,5 +57,12 @@ public class LatencyVisionDrive extends Command {
         lastRightDistance = Robot.drivetrain.getRightDistance();
         lastLeftDistance = Robot.drivetrain.getLeftDistance();
 
+        positionsList.add(new Point(x,y));
+    }
+
+    public void scalePositionsList(){
+        if(positionsList.size()>10){
+            positionsList.remove(0);
+        }
     }
 }
