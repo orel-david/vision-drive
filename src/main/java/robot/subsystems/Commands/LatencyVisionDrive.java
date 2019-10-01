@@ -18,6 +18,7 @@ public class LatencyVisionDrive extends Command {
     private int direction;
     private double distance;
     private List<Point> positionsList = new ArrayList<>();
+    private List<Double> anglesList = new ArrayList<>();
     public MiniPID angleMiniPID = new MiniPID(DrivetrainConstants.ANGLE_KP, DrivetrainConstants.ANGLE_KI, DrivetrainConstants.ANGLE_KD);
     public MiniPID distanceMiniPID = new MiniPID(DrivetrainConstants.DISTANCE_KP, DrivetrainConstants.DISTANCE_KI, DrivetrainConstants.DISTANCE_KD);
     private NetworkTableEntry distanceEntry = Robot.visionTable.getEntry("distance");
@@ -45,6 +46,7 @@ public class LatencyVisionDrive extends Command {
     protected void execute() {
         updatePoint();
         scalePositionsList();
+        scaleAnglesList();
 
         //get the robot position when the robot recognized the target
         int latency = (int)(latencyEntry.getDouble(0)/20);
@@ -99,6 +101,7 @@ public class LatencyVisionDrive extends Command {
         lastLeftDistance = Robot.drivetrain.getLeftDistance();
 
         positionsList.add(new Point(x,y));
+        anglesList.add(Robot.drivetrain.getAngle());
     }
 
     /**
@@ -107,6 +110,15 @@ public class LatencyVisionDrive extends Command {
     public void scalePositionsList(){
         if(positionsList.size()>10){
             positionsList.remove(0);
+        }
+    }
+
+    /**
+     * limit the amount of angles that are being stored to 10
+     */
+    public void scaleAnglesList() {
+        if (anglesList.size() > 10) {
+            anglesList.remove(0);
         }
     }
 }
