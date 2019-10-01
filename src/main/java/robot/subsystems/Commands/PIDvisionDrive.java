@@ -37,7 +37,7 @@ public class PIDvisionDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        distanceError = targetDistance - distanceEntry.getDouble(0);
+        distanceError = distanceEntry.getDouble(0);
         angleError = angleEntry.getDouble(0);
 
         //calculate the proportional outputs

@@ -52,8 +52,8 @@ public class LatencyVisionDrive extends Command {
         Point positionBeforeLatency = positionsList.get(positionsList.size() - latency);
         double previousAngle = angleEntry.getDouble(0);
 
-        double xTarget= distanceEntry.getDouble(0)* Math.sin(previousAngle);
-        double yTarget = distanceEntry.getDouble(0)* Math.cos(previousAngle);
+        double xTarget= distanceEntry.getDouble(0)* Math.sin(previousAngle)+ positionBeforeLatency.getX();
+        double yTarget = distanceEntry.getDouble(0)* Math.cos(previousAngle) + positionBeforeLatency.getY();
 
         Point target = new Point(xTarget, yTarget);
 
@@ -62,11 +62,11 @@ public class LatencyVisionDrive extends Command {
         Vector currentLocationToTarget = previousToTarget.subtract(previousToCurrentPosition);
 
 
-        distanceError = targetDistance - distanceEntry.getDouble(0);
+        distanceError = distanceEntry.getDouble(0);
 
         //calculate the angle after the robot drove a certain distance because of the delay
         angleError = Math.atan(currentLocationToTarget.x/currentLocationToTarget.y);
-        
+
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
         distanceOutput = distanceMiniPID.getOutput(distanceError, targetDistance);
