@@ -54,8 +54,8 @@ public class LatencyVisionDrive extends Command {
         distanceError = targetDistance - distanceEntry.getDouble(0);
 
         //calculate the angle after the robot drove a certain distance because of the delay
-        angleError = Math.atan((distanceEntry.getDouble(0.1)*Math.tan(previousAngle)-(Robot.drivetrain.currentLocation.getX()-positionBeforeLatency.getX()))
-                /distanceEntry.getDouble(0.1)-(Robot.drivetrain.currentLocation.getY()-positionBeforeLatency.getY()));
+        angleError = Math.atan((distanceEntry.getDouble(0.1)*Math.sin(previousAngle)-(Robot.drivetrain.currentLocation.getX()-positionBeforeLatency.getX()))
+                /distanceEntry.getDouble(0.1)*Math.cos(previousAngle)-(Robot.drivetrain.currentLocation.getY()-positionBeforeLatency.getY()));
 
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
@@ -82,6 +82,9 @@ public class LatencyVisionDrive extends Command {
     protected void interrupted() {
     }
 
+    /**
+     * calculate the robot current position
+     */
     public void updatePoint(){
         distance = ((Robot.drivetrain.getLeftDistance()- lastLeftDistance)+(Robot.drivetrain.getRightDistance()- lastRightDistance))/2;
         direction =  (Robot.drivetrain.getLeftVelocity()+Robot.drivetrain.getRightDistance()/2)>0 ?  1: -1;
@@ -97,6 +100,9 @@ public class LatencyVisionDrive extends Command {
         positionsList.add(new Point(x,y));
     }
 
+    /**
+     * limit the amount of points that are being stored to 10
+     */
     public void scalePositionsList(){
         if(positionsList.size()>10){
             positionsList.remove(0);
