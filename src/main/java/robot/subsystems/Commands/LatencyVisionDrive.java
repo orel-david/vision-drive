@@ -5,7 +5,6 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.auxilary.Point;
-import robot.auxilary.Vector;
 import robot.subsystems.DrivetrainConstants;
 
 import java.util.ArrayList;
@@ -52,22 +51,15 @@ public class LatencyVisionDrive extends Command {
         //get the robot position when the robot recognized the target
         int latency = (int)(latencyEntry.getDouble(0)/20);
         Point positionBeforeLatency = positionsList.get(positionsList.size() - latency);
-        double previousAngle = angleEntry.getDouble(0);
-
-        double xTarget= distanceEntry.getDouble(0)* Math.sin(previousAngle)+ positionBeforeLatency.getX();
-        double yTarget = distanceEntry.getDouble(0)* Math.cos(previousAngle) + positionBeforeLatency.getY();
-
-        Point target = new Point(xTarget, yTarget);
-
-        Vector previousToTarget = new Vector(positionBeforeLatency,target);
-        Vector previousToCurrentPosition = new Vector(positionBeforeLatency, Robot.drivetrain.currentLocation);
-        Vector currentLocationToTarget = previousToTarget.subtract(previousToCurrentPosition);
-
+        double previousAngle = angleEntry.getDouble(0) - anglesList.get(anglesList.size() - latency);
 
         distanceError = distanceEntry.getDouble(0);
 
         //calculate the angle after the robot drove a certain distance because of the delay
-        angleError = Math.atan(currentLocationToTarget.x/currentLocationToTarget.y);
+        angleError = Math.atan((distanceEntry.getDouble(0.1) * Math.sin(previousAngle) -
+                (Robot.drivetrain.currentLocation.getX() - positionBeforeLatency.getX()))
+                / distanceEntry.getDouble(0.1) * Math.cos(previousAngle) -
+                (Robot.drivetrain.currentLocation.getY() - positionBeforeLatency.getY())) + Robot.drivetrain.getAngle();
 
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
