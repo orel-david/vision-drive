@@ -8,22 +8,27 @@ public class Point {
         this.y = y;
     }
 
+    /**
+     *
+     * @return the x value of the point
+     */
     public double getX(){
         return x;
     }
 
+    /**
+     *
+     * @return the y value of the point
+     */
     public double getY(){
         return y;
     }
 
-    public void moveY(double y){
-        this.y += y;
-    }
-
-    public void moveX(double x){
-        this.x = x;
-    }
-
+    /**
+     * set the point new x,y values
+     * @param x the new x value
+     * @param y the new y value
+     */
     public void setPoint(double x, double y){
         this.y = y;
         this.x = x;

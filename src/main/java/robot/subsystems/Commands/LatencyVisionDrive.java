@@ -82,6 +82,9 @@ public class LatencyVisionDrive extends Command {
     protected void interrupted() {
     }
 
+    /**
+     * calculate the robot current position
+     */
     public void updatePoint(){
         distance = ((Robot.drivetrain.getLeftDistance()- lastLeftDistance)+(Robot.drivetrain.getRightDistance()- lastRightDistance))/2;
         direction =  (Robot.drivetrain.getLeftVelocity()+Robot.drivetrain.getRightDistance()/2)>0 ?  1: -1;
@@ -97,6 +100,9 @@ public class LatencyVisionDrive extends Command {
         positionsList.add(new Point(x,y));
     }
 
+    /**
+     * limit the amount of points that are being stored to 10
+     */
     public void scalePositionsList(){
         if(positionsList.size()>10){
             positionsList.remove(0);
