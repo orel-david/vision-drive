@@ -22,6 +22,7 @@ public class LatencyVisionDrive extends Command {
     public MiniPID distanceMiniPID = new MiniPID(DrivetrainConstants.DISTANCE_KP, DrivetrainConstants.DISTANCE_KI, DrivetrainConstants.DISTANCE_KD);
     private NetworkTableEntry distanceEntry = Robot.visionTable.getEntry("distance");
     private NetworkTableEntry angleEntry = Robot.visionTable.getEntry("angle");
+    private NetworkTableEntry latencyEntry = Robot.visionTable.getEntry("latency");
     private double targetDistance;
     private double distanceError;
     private double angleError;
@@ -29,9 +30,11 @@ public class LatencyVisionDrive extends Command {
     private double angleOutput;
 
 
-    public LatencyVisionDrive() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    public LatencyVisionDrive(double targetDistance) {
+        requires(Robot.drivetrain);
+        angleMiniPID.setOutputLimits(-0.25,0.25);
+        distanceMiniPID.setOutputLimits(-0.75,0.75);
+        this.targetDistance = targetDistance;
     }
 
     // Called just before this Command runs the first time
@@ -40,11 +43,34 @@ public class LatencyVisionDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        updatePoint();
+        scalePositionsList();
+
+        //get the robot position when the robot recognized the target
+        int latency = (int)(latencyEntry.getDouble(0)/20);
+        Point positionBeforeLatency = positionsList.get(positionsList.size() - latency);
+        double previousAngle = angleEntry.getDouble(0);
+
+        distanceError = targetDistance - distanceEntry.getDouble(0);
+
+        //calculate the angle after the robot drove a certain distance because of the delay
+        angleError = Math.atan((distanceEntry.getDouble(0.1)*Math.tan(previousAngle)-(Robot.drivetrain.currentLocation.getX()-positionBeforeLatency.getX()))
+                /distanceEntry.getDouble(0.1)-(Robot.drivetrain.currentLocation.getY()-positionBeforeLatency.getY()));
+
+        //calculate the proportional outputs
+        //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
+        distanceOutput = distanceMiniPID.getOutput(distanceError, targetDistance);
+        angleOutput = angleMiniPID.getOutput(angleError , 0);
+
+        //set the output for each motor
+        Robot.drivetrain.setRightSpeed(distanceOutput + angleOutput);
+        Robot.drivetrain.setLeftSpeed(distanceOutput - angleOutput);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Math.abs(angleError) < 2// if the angle mistake is smaller than 2 degrees
+                && Math.abs(distanceError) < 0.3;//and the distance mistake is smaller than 0.3 meters
     }
 
     // Called once after isFinished returns true
