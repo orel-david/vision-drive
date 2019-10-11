@@ -45,38 +45,23 @@ public class LatencyVisionDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         updatePoint();
-<<<<<<< HEAD
+        scalePositionsList();
         scaleAngleslist();
-        scalePositionsList();
-
-        //get the robot position when the robot recognized the target
-        int latency = (int)(latencyEntry.getDouble(0)/20);
-        Point positionBeforeLatency = positionsList.get(positionsList.size() - latency);
-        double previousAngle = angleEntry.getDouble(0) - anglesList.get(anglesList.size() - latency);
-=======
-        scalePositionsList();
-        scaleAnglesList();
 
         //get the robot position when the robot recognized the target
         int latency = (int)(latencyEntry.getDouble(0)/20);
         Point positionBeforeLatency = positionsList.get((positionsList.size() - 1) - latency);
         double previousAngle = angleEntry.getDouble(0) - anglesList.get((anglesList.size() - 1) - latency); // calculate the angle from the target
         // as if the robot were vertical
->>>>>>> master
 
         distanceError = distanceEntry.getDouble(0);
 
         //calculate the angle after the robot drove a certain distance because of the delay
-<<<<<<< HEAD
         angleError = Math.atan((distanceEntry.getDouble(0.1) * Math.sin(previousAngle) -
                 (Robot.drivetrain.currentLocation.getX() - positionBeforeLatency.getX()))
                 / distanceEntry.getDouble(0.1) * Math.cos(previousAngle) -
                 (Robot.drivetrain.currentLocation.getY() - positionBeforeLatency.getY())) + Robot.drivetrain.getAngle();
-=======
-        angleError = Math.atan((distanceEntry.getDouble(0.1) * Math.sin(previousAngle) - (Robot.drivetrain.currentLocation.getX() - positionBeforeLatency.getX()))
-                / distanceEntry.getDouble(0.1) * Math.cos(previousAngle) - (Robot.drivetrain.currentLocation.getY() - positionBeforeLatency.getY())
-                + Robot.drivetrain.getAngle()); // add the current robot angle to the equation
->>>>>>> master
+
 
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
@@ -86,10 +71,7 @@ public class LatencyVisionDrive extends Command {
         //set the output for each motor
         Robot.drivetrain.setRightSpeed(distanceOutput + angleOutput);
         Robot.drivetrain.setLeftSpeed(distanceOutput - angleOutput);
-<<<<<<< HEAD
-=======
 
->>>>>>> master
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -136,17 +118,12 @@ public class LatencyVisionDrive extends Command {
     }
 
     /**
-<<<<<<< HEAD
+     <<<<<<< HEAD
      * Limit the amount of angles that are being stores to 10
      */
     public void scaleAngleslist() {
-=======
-     * limit the amount of angles that are being stored to 10
-     */
-    public void scaleAnglesList() {
->>>>>>> master
-        if (anglesList.size() > 10) {
-            anglesList.remove(0);
+            if (anglesList.size() > 10) {
+                anglesList.remove(0);
+            }
         }
     }
-}
