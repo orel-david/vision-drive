@@ -15,7 +15,7 @@ public class DrivetrainConstants {
     public static final double DISTANCE_KP = 0.2;
     public static final double DISTANCE_KI = 0;
     public static final double DISTANCE_KD = 0;
-    public static final double ANGLE_KP = 0.2;
+    public static final double ANGLE_KP = 0.17;
     public static final double ANGLE_KI = 0;
-    public static final double ANGLE_KD = 0;
+    public static final double ANGLE_KD = 0.6;
 }
