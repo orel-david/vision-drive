@@ -4,7 +4,7 @@ import com.stormbots.MiniPID;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
-import robot.auxilary.Point;
+import robot.utilities.Point;
 import robot.subsystems.DrivetrainConstants;
 
 import java.util.ArrayList;
