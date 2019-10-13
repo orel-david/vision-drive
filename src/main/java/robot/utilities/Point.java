@@ -1,4 +1,4 @@
-package robot.auxilary;
+package robot.utilities;
 
 public class Point {
     private double x,y;

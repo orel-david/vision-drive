@@ -1,4 +1,4 @@
-package robot.auxilary;
+package robot.utilities;
 
 import edu.wpi.first.wpilibj.drive.Vector2d;
 
