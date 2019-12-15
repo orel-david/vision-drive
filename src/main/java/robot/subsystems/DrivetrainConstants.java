@@ -8,14 +8,14 @@ public class DrivetrainConstants {
     public static final int MAX_CURRENT = 35;
 
     //constants for proportional vision drive
-    public static final double VISION_DISTANCE_KP =0.2;
-    public static final double VISION_ANGLE_KP =0.2;
+    public static double VISION_DISTANCE_KP =0.2;
+    public static double VISION_ANGLE_KP =0.2;
 
     //constants for PID vision drive
-    public static final double DISTANCE_KP = 0.2;
-    public static final double DISTANCE_KI = 0;
-    public static final double DISTANCE_KD = 0;
-    public static final double ANGLE_KP = 0.17;
-    public static final double ANGLE_KI = 0;
-    public static final double ANGLE_KD = 0.6;
+    public static double DISTANCE_KP = 0.2;
+    public static double DISTANCE_KI = 0;
+    public static double DISTANCE_KD = 0;
+    public static double ANGLE_KP = 0.17;
+    public static double ANGLE_KI = 0;
+    public static double ANGLE_KD = 0.6;
 }

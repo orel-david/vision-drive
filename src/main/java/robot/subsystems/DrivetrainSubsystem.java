@@ -4,17 +4,18 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.utilities.Point;
 
 public class DrivetrainSubsystem extends Subsystem {
 
-    public TalonSRX leftMaster = new TalonSRX(3);
-    public TalonSRX rightMaster = new TalonSRX(6);
-    public VictorSPX right1 = new VictorSPX(7);
-    public VictorSPX left1 = new VictorSPX(4);
-    public VictorSPX right2 = new VictorSPX(8);
-    public VictorSPX left2 = new VictorSPX(5);
+    public TalonSRX leftMaster = new TalonSRX(16);
+    public TalonSRX rightMaster = new TalonSRX(11);
+    public VictorSPX right1 = new VictorSPX(12);
+    public VictorSPX left1 = new VictorSPX(14);
+    public VictorSPX right2 = new VictorSPX(13);
+    public VictorSPX left2 = new VictorSPX(15);
     public Point currentLocation = new Point(0,0);
 
     public DrivetrainSubsystem(){
@@ -109,6 +110,24 @@ public class DrivetrainSubsystem extends Subsystem {
 
     public double convertTicksToDistance(int tick) {
         return tick / DrivetrainConstants.TICKS_PER_METER;
+    }
+
+    public void updateConstants(){
+        DrivetrainConstants.VISION_ANGLE_KP = getConstant("vision angle kp", DrivetrainConstants.VISION_ANGLE_KP);
+        DrivetrainConstants.VISION_DISTANCE_KP = getConstant("vision distance kp", DrivetrainConstants.VISION_DISTANCE_KP);
+
+        DrivetrainConstants.ANGLE_KP = getConstant("angle kp", DrivetrainConstants.ANGLE_KP);
+        DrivetrainConstants.ANGLE_KI = getConstant("angle ki", DrivetrainConstants.ANGLE_KI);
+        DrivetrainConstants.ANGLE_KD = getConstant("angle kd" , DrivetrainConstants.ANGLE_KD);
+
+        DrivetrainConstants.DISTANCE_KP = getConstant("distance kp", DrivetrainConstants.DISTANCE_KP);
+        DrivetrainConstants.DISTANCE_KI = getConstant("distance ki", DrivetrainConstants.DISTANCE_KI);
+        DrivetrainConstants.DISTANCE_KD = getConstant("distance kd" , DrivetrainConstants.DISTANCE_KD);
+    }
+
+    private double getConstant(String key, double value){
+        SmartDashboard.putNumber(key,SmartDashboard.getNumber(key,value));
+        return SmartDashboard.getNumber(key,value);
     }
 
     @Override
