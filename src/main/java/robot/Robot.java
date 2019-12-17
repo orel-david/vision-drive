@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     public static OI m_oi;
     public static AHRS navx = new AHRS(SPI.Port.kMXP);
     public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
-    public  static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("vision");
+    public  static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("Vision");
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -65,7 +65,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
+        Scheduler.getInstance().removeAll();
     }
 
     @Override

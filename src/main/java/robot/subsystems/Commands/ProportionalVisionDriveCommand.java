@@ -9,29 +9,29 @@ public class ProportionalVisionDriveCommand extends Command {
 
     private NetworkTableEntry distanceEntry = Robot.visionTable.getEntry("distance");
     private NetworkTableEntry angleEntry = Robot.visionTable.getEntry("angle");
-    private double targetDistance;
     private double distanceError;
     private double angleError;
     private double distanceOutput;
     private double angleOutput;
 
 
-    public ProportionalVisionDriveCommand(double targetDistance) {
+    public ProportionalVisionDriveCommand() {
 
         requires(Robot.drivetrain);
-        this.targetDistance = targetDistance;
 
     }
 
     @Override
     // Called just before this Command runs the first time
     protected void initialize() {
+        System.out.println();
     }
 
     @Override
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        distanceError = distanceEntry.getDouble(0);
+        double distanceVision = distanceEntry.getDouble(0);
+        distanceError = distanceVision <= 0.4 ? 0 : distanceVision - 0.4;
         angleError = angleEntry.getDouble(0);
 
         //calculate the proportional outputs
@@ -55,6 +55,7 @@ public class ProportionalVisionDriveCommand extends Command {
     @Override
     // Called once after isFinished returns true
     protected void end() {
+        System.out.println("fsfsdafsdafdsafa");
     }
 
     @Override
