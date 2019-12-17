@@ -5,23 +5,22 @@ import robot.Robot;
 
 public class DriveCommand extends Command {
 
-    private double speed;
 
-    public DriveCommand(double speed){
+
+    public DriveCommand(){
         requires(Robot.drivetrain);
-        this.speed = speed;
+
     }
 
     @Override
     protected void initialize() {
-        Robot.drivetrain.setLeftSpeed(speed);
-        Robot.drivetrain.setRightSpeed(speed);
+
     }
 
     @Override
     protected void execute() {
-        System.out.println(speed);
-
+        Robot.drivetrain.setLeftSpeed(-Robot.m_oi.left.getY());
+        Robot.drivetrain.setRightSpeed(-Robot.m_oi.right.getY());
     }
 
     @Override

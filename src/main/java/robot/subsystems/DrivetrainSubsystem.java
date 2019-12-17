@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
+import robot.subsystems.Commands.DriveCommand;
 import robot.utilities.Point;
 
 public class DrivetrainSubsystem extends Subsystem {
@@ -19,12 +20,12 @@ public class DrivetrainSubsystem extends Subsystem {
     public Point currentLocation = new Point(0,0);
 
     public DrivetrainSubsystem(){
-        leftMaster.setInverted(true);
-        left1.setInverted(true);
-        left2.setInverted(true);
-        rightMaster.setInverted(false);
-        right1.setInverted(false);
-        right2.setInverted(false);
+        leftMaster.setInverted(false);
+        left1.setInverted(false);
+        left2.setInverted(false);
+        rightMaster.setInverted(true);
+        right1.setInverted(true);
+        right2.setInverted(true);
 
         right1.follow(rightMaster);
         right2.follow(rightMaster);
@@ -123,6 +124,7 @@ public class DrivetrainSubsystem extends Subsystem {
         DrivetrainConstants.DISTANCE_KP = getConstant("distance kp", DrivetrainConstants.DISTANCE_KP);
         DrivetrainConstants.DISTANCE_KI = getConstant("distance ki", DrivetrainConstants.DISTANCE_KI);
         DrivetrainConstants.DISTANCE_KD = getConstant("distance kd" , DrivetrainConstants.DISTANCE_KD);
+
     }
 
     private double getConstant(String key, double value){
@@ -132,7 +134,7 @@ public class DrivetrainSubsystem extends Subsystem {
 
     @Override
     protected void initDefaultCommand() {
-
+        setDefaultCommand(new DriveCommand());
     }
 
     public void resetLocation(){
