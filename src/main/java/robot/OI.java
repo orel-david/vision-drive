@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.buttons.POVButton;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import robot.subsystems.Commands.DriveCommand;
+import robot.subsystems.Commands.PIDVisionDriveOdometry;
 import robot.subsystems.Commands.ProportionalVisionDriveCommand;
 import robot.subsystems.Commands.turnToPlace;
 
@@ -33,7 +34,7 @@ public class OI {
     Button y = new JoystickButton(xbox, 4);
 
     public OI() {
-        b.whenPressed(new ProportionalVisionDriveCommand());
+        b.whenPressed(new PIDVisionDriveOdometry(0.2));
     }
 
 

@@ -116,6 +116,7 @@ public class DrivetrainSubsystem extends Subsystem {
     public void updateConstants(){
         DrivetrainConstants.VISION_ANGLE_KP = getConstant("vision angle kp", DrivetrainConstants.VISION_ANGLE_KP);
         DrivetrainConstants.VISION_DISTANCE_KP = getConstant("vision distance kp", DrivetrainConstants.VISION_DISTANCE_KP);
+        DrivetrainConstants.VISION_ANGLE_FEEDFORWARD = getConstant("feedforward", DrivetrainConstants.VISION_ANGLE_FEEDFORWARD);
 
         DrivetrainConstants.ANGLE_KP = getConstant("angle kp", DrivetrainConstants.ANGLE_KP);
         DrivetrainConstants.ANGLE_KI = getConstant("angle ki", DrivetrainConstants.ANGLE_KI);
