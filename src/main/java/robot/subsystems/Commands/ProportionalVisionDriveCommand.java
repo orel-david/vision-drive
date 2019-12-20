@@ -2,6 +2,7 @@ package robot.subsystems.Commands;
 
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.subsystems.DrivetrainConstants;
 
@@ -31,16 +32,20 @@ public class ProportionalVisionDriveCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
         double distanceVision = distanceEntry.getDouble(0);
-        distanceError = distanceVision <= 0.4 ? 0 : distanceVision - 0.4;
+        distanceError = distanceVision <= 0.2 ? 0 : distanceVision - 0.2;
         angleError = angleEntry.getDouble(0);
 
         //calculate the proportional outputs
         distanceOutput = distanceError * DrivetrainConstants.VISION_DISTANCE_KP;
-        angleOutput = angleError * DrivetrainConstants.VISION_ANGLE_KP;
+        if (distanceOutput> 0.5) distanceOutput = 0.5;
+        angleOutput = angleError * DrivetrainConstants.VISION_ANGLE_KP+ Math.signum(angleError)*DrivetrainConstants.VISION_ANGLE_FEEDFORWARD;
+
+        SmartDashboard.putNumber("distance output",distanceOutput );
+        SmartDashboard.putNumber("angle output", angleOutput);
 
         //set the output for each motor
-        Robot.drivetrain.setRightSpeed(distanceOutput + angleOutput);
-        Robot.drivetrain.setLeftSpeed(distanceOutput - angleOutput);
+        Robot.drivetrain.setRightSpeed(distanceOutput - angleOutput);
+        Robot.drivetrain.setLeftSpeed(distanceOutput + angleOutput);
 
     }
 
