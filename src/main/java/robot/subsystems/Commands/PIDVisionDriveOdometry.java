@@ -30,7 +30,7 @@ public class PIDVisionDriveOdometry extends Command {
         distanceMiniPID.setOutputLimits(-0.25, 0.75);
 
         distanceMiniPID.setDirection(true);
-        distanceMiniPID.setOutputRampRate(0.1);
+        distanceMiniPID.setOutputRampRate(DrivetrainConstants.RAMP);
         this.targetDistance = targetDistance;
     }
 
@@ -61,11 +61,12 @@ public class PIDVisionDriveOdometry extends Command {
     private void updateConstants() {
         angleMiniPID.setPID(DrivetrainConstants.ANGLE_KP, DrivetrainConstants.ANGLE_KI, DrivetrainConstants.ANGLE_KD);
         distanceMiniPID.setPID(DrivetrainConstants.DISTANCE_KP, DrivetrainConstants.DISTANCE_KI, DrivetrainConstants.DISTANCE_KD);
+        distanceMiniPID.setOutputRampRate(DrivetrainConstants.RAMP);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(visionAngle) < 0.1
+        return Math.abs(visionAngle) < 0.3
                 && Math.abs(visionDistance - targetDistance) < 0.1;
     }
 

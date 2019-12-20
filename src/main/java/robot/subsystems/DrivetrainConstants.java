@@ -13,10 +13,12 @@ public class DrivetrainConstants {
     public static double VISION_ANGLE_FEEDFORWARD = 0.02;
 
     //constants for PID vision drive
-    public static double DISTANCE_KP = 0.9;
+    public static double DISTANCE_KP = 0.7;
     public static double DISTANCE_KI = 0;
     public static double DISTANCE_KD = 0;
     public static double ANGLE_KP = 0.03;
     public static double ANGLE_KI = 0.001;
     public static double ANGLE_KD = 0.1;
+
+    public static double RAMP = 0.02;
 }

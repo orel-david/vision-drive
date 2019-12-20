@@ -126,6 +126,8 @@ public class DrivetrainSubsystem extends Subsystem {
         DrivetrainConstants.DISTANCE_KI = getConstant("distance ki", DrivetrainConstants.DISTANCE_KI);
         DrivetrainConstants.DISTANCE_KD = getConstant("distance kd" , DrivetrainConstants.DISTANCE_KD);
 
+        DrivetrainConstants.RAMP = getConstant("RAMP", DrivetrainConstants.RAMP);
+
     }
 
     private double getConstant(String key, double value){
