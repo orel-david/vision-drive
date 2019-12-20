@@ -21,13 +21,15 @@ public class PIDVisionDriveOdometry extends Command {
     private double visionAngle;
     private double distanceOutput;
     private double angleOutput;
+    private double iRange = 0.4;
 
 
     public PIDVisionDriveOdometry(double targetDistance) {
         requires(Robot.drivetrain);
-        angleMiniPID.setOutputLimits(-0.25,0.25);
-        distanceMiniPID.setOutputLimits(-0.5,0.5);
+        angleMiniPID.setOutputLimits(-0.25, 0.25);
+        distanceMiniPID.setOutputLimits(-0.25, 0.75);
         distanceMiniPID.setDirection(true);
+        distanceMiniPID.setOutputRampRate(0.1);
         this.targetDistance = targetDistance;
     }
 
@@ -40,6 +42,9 @@ public class PIDVisionDriveOdometry extends Command {
         updateConstants();
         visionDistance = distanceEntry.getDouble(0);
         visionAngle = angleEntry.getDouble(0);
+
+        if(visionDistance > iRange)
+            distanceMiniPID.setI(0);
 
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
@@ -58,8 +63,8 @@ public class PIDVisionDriveOdometry extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Math.abs(visionAngle) < 0.2// if the angle mistake is smaller than 2 degrees
-                && Math.abs(visionDistance - targetDistance) < 0.1;//and the distance mistake is smaller than 0.3 meters
+        return Math.abs(visionAngle) < 0.1
+                && Math.abs(visionDistance - targetDistance) < 0.1;
     }
 
     // Called once after isFinished returns true
