@@ -21,7 +21,6 @@ public class PIDVisionDriveOdometry extends Command {
     private double visionAngle;
     private double distanceOutput;
     private double angleOutput;
-<<<<<<< Updated upstream
     private double iRange = 0.4;
 
 
@@ -29,14 +28,7 @@ public class PIDVisionDriveOdometry extends Command {
         requires(Robot.drivetrain);
         angleMiniPID.setOutputLimits(-0.25, 0.25);
         distanceMiniPID.setOutputLimits(-0.25, 0.75);
-=======
-    private double position;
 
-    public PIDVisionDriveOdometry(double targetDistance) {
-        requires(Robot.drivetrain);
-        angleMiniPID.setOutputLimits(-0.35,0.35);
-        distanceMiniPID.setOutputLimits(-0.5,0.5);
->>>>>>> Stashed changes
         distanceMiniPID.setDirection(true);
         distanceMiniPID.setOutputRampRate(0.1);
         this.targetDistance = targetDistance;
@@ -51,14 +43,11 @@ public class PIDVisionDriveOdometry extends Command {
         updateConstants();
         visionDistance = distanceEntry.getDouble(0);
         visionAngle = angleEntry.getDouble(0);
-<<<<<<< Updated upstream
 
-        if(visionDistance > iRange)
+        if(visionDistance < iRange)
             distanceMiniPID.setI(0);
 
-=======
-//        position = (Robot.drivetrain.getLeftDistance()+Robot.drivetrain.getRightDistance())/2;
->>>>>>> Stashed changes
+
         //calculate the proportional outputs
         //currently this ain't the actual calculation and it would be a PID control with the constants from DrivetrainConstants
         distanceOutput = distanceMiniPID.getOutput(visionDistance ,targetDistance);
