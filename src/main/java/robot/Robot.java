@@ -27,7 +27,9 @@ import robot.subsystems.DrivetrainSubsystem;
  */
 public class Robot extends TimedRobot {
     public static OI m_oi;
+    public static AHRS navx = new AHRS(SPI.Port.kMXP);
     public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
+    public  static NetworkTable visionTable = NetworkTableInstance.getDefault().getTable("Vision");
 
     Command m_autonomousCommand;
     SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -63,7 +65,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void disabledInit() {
-
+        Scheduler.getInstance().removeAll();
     }
 
     @Override
@@ -110,8 +112,10 @@ public class Robot extends TimedRobot {
      * This function is called periodically during operator control.
      */
     @Override
-    public void teleopPeriodic() {
+    public void teleopPeriodic()
+    {
         Scheduler.getInstance().run();
+        drivetrain.updateConstants();
     }
 
     /**

@@ -4,6 +4,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.Robot;
+import robot.subsystems.Commands.DriveCommand;
+import robot.utilities.Point;
 
 public class DrivetrainSubsystem extends Subsystem {
 
@@ -13,14 +17,15 @@ public class DrivetrainSubsystem extends Subsystem {
     public VictorSPX left1 = new VictorSPX(14);
     public VictorSPX right2 = new VictorSPX(13);
     public VictorSPX left2 = new VictorSPX(15);
+    public Point currentLocation = new Point(0,0);
 
     public DrivetrainSubsystem(){
-        leftMaster.setInverted(true);
-        left1.setInverted(true);
-        left2.setInverted(true);
-        rightMaster.setInverted(false);
-        right1.setInverted(false);
-        right2.setInverted(false);
+        leftMaster.setInverted(false);
+        left1.setInverted(false);
+        left2.setInverted(false);
+        rightMaster.setInverted(true);
+        right1.setInverted(true);
+        right2.setInverted(true);
 
         right1.follow(rightMaster);
         right2.follow(rightMaster);
@@ -37,6 +42,10 @@ public class DrivetrainSubsystem extends Subsystem {
 
     public void setRightSpeed(double speed){
         rightMaster.set(ControlMode.PercentOutput,speed);
+    }
+
+    public double getAngle(){
+        return Robot.navx.getAngle();
     }
 
     public double getLeftDistance(){
@@ -104,8 +113,34 @@ public class DrivetrainSubsystem extends Subsystem {
         return tick / DrivetrainConstants.TICKS_PER_METER;
     }
 
+    public void updateConstants(){
+        DrivetrainConstants.VISION_ANGLE_KP = getConstant("vision angle kp", DrivetrainConstants.VISION_ANGLE_KP);
+        DrivetrainConstants.VISION_DISTANCE_KP = getConstant("vision distance kp", DrivetrainConstants.VISION_DISTANCE_KP);
+        DrivetrainConstants.VISION_ANGLE_FEEDFORWARD = getConstant("feedforward", DrivetrainConstants.VISION_ANGLE_FEEDFORWARD);
+
+        DrivetrainConstants.ANGLE_KP = getConstant("angle kp", DrivetrainConstants.ANGLE_KP);
+        DrivetrainConstants.ANGLE_KI = getConstant("angle ki", DrivetrainConstants.ANGLE_KI);
+        DrivetrainConstants.ANGLE_KD = getConstant("angle kd" , DrivetrainConstants.ANGLE_KD);
+
+        DrivetrainConstants.DISTANCE_KP = getConstant("distance kp", DrivetrainConstants.DISTANCE_KP);
+        DrivetrainConstants.DISTANCE_KI = getConstant("distance ki", DrivetrainConstants.DISTANCE_KI);
+        DrivetrainConstants.DISTANCE_KD = getConstant("distance kd" , DrivetrainConstants.DISTANCE_KD);
+
+        DrivetrainConstants.RAMP = getConstant("RAMP", DrivetrainConstants.RAMP);
+
+    }
+
+    private double getConstant(String key, double value){
+        SmartDashboard.putNumber(key,SmartDashboard.getNumber(key,value));
+        return SmartDashboard.getNumber(key,value);
+    }
+
     @Override
     protected void initDefaultCommand() {
+        setDefaultCommand(new DriveCommand());
+    }
 
+    public void resetLocation(){
+        currentLocation.setPoint(0,0);
     }
 }
